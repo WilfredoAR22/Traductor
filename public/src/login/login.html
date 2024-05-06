@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../../style/login.css" />
+    <title>login</title>
+</head>
+<body>
+    <div class="container">
+        <div class="forms-container">
+            <div class="signin-signup">
+                <form action="/login" method="POST" class="sign-in-form">
+                    <h2 class="title">Iniciar Sesión</h2>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="Usuario" name="username" />
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Contraseña" name="password" />
+                    </div>
+                    <input type="submit" value="Iniciar Sesión" class="btn solid" />
+                </form>
+                <form action="/registro" method="POST" class="sign-up-form">
+                    <h2 class="title">Registrarse</h2>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="Nombre" name="Nombre" />
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" placeholder="Correo Electrónico" name="Correo_Electronico" />
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="Usuario" name="Usuario" />
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Contraseña" name="Contrasenia" />
+                    </div>
+                    <input type="submit" class="btn" value="Registrarse" />
+                </form>
+            </div>
+        </div>
+        <div class="panels-container">
+            <div class="panel left-panel">
+                <div class="content">
+                    <h3>¿Eres nuevo aquí?</h3>
+                    <p>
+                        ¡Regístrate y dale vida a las palabras!
+                    </p>
+                    <button class="btn transparent" id="sign-up-btn">
+                        Registrarse
+                    </button>
+                </div>
+                <img src="../../img/log.svg" class="image" alt="" />
+            </div>
+            <div class="panel right-panel">
+                <div class="content">
+                    <h3>Eres uno de nosotros</h3>
+                    <p>
+                        ¡Vuelve a tu mundo de palabras! Inicia sesión y sigue construyendo el diccionario.
+                    </p>
+                    <button class="btn transparent" id="sign-in-btn">
+                        Iniciar Sesión
+                    </button>
+                </div>
+                <img src="../../img/register.svg" class="image" alt="" /> <!-- Corregido el cierre de la etiqueta -->
+            </div>
+        </div>
+    </div>
+    <script src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diccionario Completo</title>
+    <link rel="shortcut icon" href="https://i.blogs.es/3c6675/traductordegoogleoscuro/1366_2000.jpg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">
+            <img src="https://i.blogs.es/3c6675/traductordegoogleoscuro/1366_2000.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
+            Traductor
+        </a>
+    </nav>
+    <hr>
+    <div class="container">
+        {{range .}}
+        <div style='text-align:center;'><b>Código de Referencia:</b> {{.ID}}</div><br>
+        <div style='text-align:center;'><b>Palabra en Español:</b> {{.Espaniol}}</div><br>
+        <div style='text-align:center;'><b>Palabra en Q´eqchi´:</b> {{.Qeqchi}}</div><br>
+        <hr>
+        {{end}}
+    </div>
+</body>
+</html>

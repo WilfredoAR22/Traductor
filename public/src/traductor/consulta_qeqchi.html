@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traductor Q´eqchi´ a Español</title>
+    <link rel="shortcut icon" href="https://i.blogs.es/3c6675/traductordegoogleoscuro/1366_2000.jpg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../style/bootstrap.css">    
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">
+            <img src="https://i.blogs.es/3c6675/traductordegoogleoscuro/1366_2000.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
+            Traductor
+        </a>
+    </nav>
+
+    <center>
+        <div class="p-2 mb-2 bg-primary text-white">Traductor de Q´eqchi´ a Español</div>
+        <hr>
+        <div class="card border-dark mb-3" style="width: 25rem;">
+            <img class="card-img-top" src="../../img/Tarjeta_8.jpg" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Traducir de Q´eqchi´ a Español</h5>
+                <form id="traduccionForm" action="/consulta_qeqchi" method="post">
+                    <input type="text" name="palabra_traducir_qeqchi" style="width: 200px;" required>
+                    <br><br>
+                    <button type="submit" class="btn btn-success">Traducir a Español</button>
+                </form>              
+            </div>
+        </div>
+        <div class="card border-success mb-3" style="max-width: 25rem;">
+            <div class="card-body" id="respuestaTraduccion">
+                <!-- Aquí se mostrará la respuesta de la traducción -->
+            </div>
+        </div>
+    </center>
+
+    <script>
+        // Manejar la solicitud de traducción sin JavaScript (opcional)
+        document.getElementById("traduccionForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevenir el envío del formulario por defecto
+    
+            // Obtener los datos del formulario
+            var formData = new FormData(this);
+    
+            // Realizar la solicitud AJAX para enviar los datos al servidor Go
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/consulta_qeqchi", true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Convertir la respuesta JSON a un objeto JavaScript
+                    var respuesta = JSON.parse(xhr.responseText);
+                    
+                    // Obtener la traducción del objeto respuesta
+                    var traduccion = respuesta.espaniol;
+    
+                    // Mostrar la traducción en el elemento con id "respuestaTraduccion"
+                    document.getElementById("respuestaTraduccion").innerText = traduccion;
+                } else {
+                    // Mostrar un mensaje de error si la solicitud falla
+                    document.getElementById("respuestaTraduccion").innerText = "Error al traducir la palabra";
+                }
+            };
+            xhr.onerror = function() {
+                // Mostrar un mensaje de error si la solicitud falla
+                document.getElementById("respuestaTraduccion").innerText = "Error al traducir la palabra";
+            };
+            xhr.send(formData);
+        });
+    </script>
+</body>
+</html>
