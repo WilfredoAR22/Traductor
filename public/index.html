@@ -1,80 +1,48 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="https://i.blogs.es/3c6675/traductordegoogleoscuro/1366_2000.jpg">
-    <!-- <link href="estilos/estilos.css" rel="stylesheet"> -->  
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="./style/style.css">
     <title>Página Principal</title>
 </head>
-
 <body>
-    <nav class="navbar navbar-dark bg-dark">
+    <nav class="navbar">
         <a class="navbar-brand" href="#">
-            <img src="https://i.blogs.es/3c6675/traductordegoogleoscuro/1366_2000.jpg" width="30" height="40"
-                class="d-inline-block align-top" alt="">
+            <img src="https://i.blogs.es/3c6675/traductordegoogleoscuro/1366_2000.jpg" width="30" height="40" class="logo" alt="Logo">
             Traductor
         </a>
     </nav>
     <hr>
-    <div class="p-3 mb-2 bg-warning text-dark">
+    <div class="welcome-section">
         <h1>Bienvenidos, ¿Estás listo para traducir?</h1>
     </div>
     <hr>
-
-    <script type="text/javascript"
-        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th scope="col">
-                    <!--Card--->
-                    <center>
-                        <div class="card border-info mb-3" style="width: 18rem;">
-                            <img class="card-img-top" src="./img/Tarjeta_1.jpg" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">Diccionario General.</h5>
-                                <a class="btn btn-primary" value="Ingresar"
-                                    href="./src/diccionario/diccionario_completo.html">Ingresa aquí</a>
-                            </div>
-                        </div>
-                    </center>
-                    <!--End of the Card-->
-                </th>
-                <th scope="col">
-                    <!--Card--->
-                    <center>
-                        <div class="card border-success mb-3" style="width: 18rem;">
-                            <img class="card-img-top" src="./img/Tarjeta_2.jpg" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">Traductor.</h5>
-                                <a class="btn btn-success" value="Ingresar"
-                                    href="./src/traductor/consulta_especifica.html">Ingresa aquí</a>
-                            </div>
-                        </div>
-                    </center>
-                    <!--End of the Card-->
-                </th>
-                <th scope="col">
-                    <!--Card--->
-                    <center>
-                        <div class="card border-danger mb-3" style="width: 18rem;">
-                            <img class="card-img-top" src="./img/Tarjeta_3.jpg" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">Registro de Palabras</h5>
-                                <a href="./src/login/login.html" class="btn btn-danger">Ingresa aquí</a>
-                            </div>
-                        </div>
-                    </center>
-                    <!--End of the Card-->
-                </th>
-            </tr>
-        </thead>
-    </table>
+    <div class="card-container">
+        <div class="card">
+            <img src="./img/Tarjeta_1.jpg" alt="Diccionario General">
+            <div class="card-body">
+                <h5 class="card-title">Diccionario General</h5>
+                <a class="btn" href="./src/diccionario/diccionario_completo.html">Ingresa aquí</a>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./img/Tarjeta_2.jpg" alt="Traductor">
+            <div class="card-body">
+                <h5 class="card-title">Traductor</h5>
+                <a class="btn" href="./src/traductor/consulta_especifica.html">Ingresa aquí</a>
+            </div>
+        </div>
+        <div class="card">
+            <img src="./img/Tarjeta_3.jpg" alt="Registro de Palabras">
+            <div class="card-body">
+                <h5 class="card-title">Registro de Palabras</h5>
+                <a class="btn" href="./src/login/login.html">Ingresa aquí</a>
+            </div>
+        </div>
+    </div>
+    <script src="./app.js"></script>
 </body>
-
 </html>

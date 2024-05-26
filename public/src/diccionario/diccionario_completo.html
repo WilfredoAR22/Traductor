@@ -7,6 +7,7 @@
     <title>Diccionario Completo</title>
     <link rel="shortcut icon" href="https://i.blogs.es/3c6675/traductordegoogleoscuro/1366_2000.jpg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/diccionario/Dcompleto.css">
 </head>
 <body>
     <nav class="navbar navbar-dark bg-dark">
@@ -16,13 +17,25 @@
         </a>
     </nav>
     <hr>
-    <div class="container">
-        {{range .}}
-        <div style='text-align:center;'><b>Código de Referencia:</b> {{.ID}}</div><br>
-        <div style='text-align:center;'><b>Palabra en Español:</b> {{.Espaniol}}</div><br>
-        <div style='text-align:center;'><b>Palabra en Q´eqchi´:</b> {{.Qeqchi}}</div><br>
-        <hr>
-        {{end}}
+    <div class="container table-container">
+        <table class="table">
+            <thead>
+                <tr class="nom">
+                    <th>Código de Referencia</th>
+                    <th>Palabra en Español</th>
+                    <th>Palabra en Q´eqchi´</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .}}
+                <tr>
+                    <td>{{.ID}}</td>
+                    <td>{{.Espaniol}}</td>
+                    <td>{{.Qeqchi}}</td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
     </div>
 </body>
 </html>

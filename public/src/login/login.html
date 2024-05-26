@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../../style/login.css" />
+    <link rel="stylesheet" href="../../style/login/login.css" />
     <title>login</title>
 </head>
 <body>
@@ -15,33 +15,34 @@
                     <h2 class="title">Iniciar Sesión</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" placeholder="Usuario" name="username" />
+                        <input type="text" placeholder="Usuario" name="username" required/>
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Contraseña" name="password" />
+                        <input type="password" placeholder="Contraseña" name="password" required/>
                     </div>
                     <input type="submit" value="Iniciar Sesión" class="btn solid" />
                 </form>
-                <form action="/registro" method="POST" class="sign-up-form">
+                <form action="/registro" method="POST" class="sign-up-form" onsubmit="return validarRegistro()">
                     <h2 class="title">Registrarse</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" placeholder="Nombre" name="Nombre" />
+                        <input type="text" placeholder="Nombre" name="Nombre" id="nombre" required/>
                     </div>
                     <div class="input-field">
                         <i class="fas fa-envelope"></i>
-                        <input type="email" placeholder="Correo Electrónico" name="Correo_Electronico" />
+                        <input type="email" placeholder="Correo Electrónico" name="Correo_Electronico" id="correo" required/>
                     </div>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" placeholder="Usuario" name="Usuario" />
+                        <input type="text" placeholder="Usuario" name="Usuario" id="usuario" required/>
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Contraseña" name="Contrasenia" />
+                        <input type="password" placeholder="Contraseña" name="Contrasenia" id="contrasenia" required/>
                     </div>
                     <input type="submit" class="btn" value="Registrarse" />
+                    <p id="mensajeRegistro" style="color: red; display: none;">Por favor, completa todos los campos.</p>
                 </form>
             </div>
         </div>
@@ -72,6 +73,7 @@
             </div>
         </div>
     </div>
-    <script src="./app.js"></script>
+    <script src="../../src/login/app.js"></script>
+
 </body>
 </html>

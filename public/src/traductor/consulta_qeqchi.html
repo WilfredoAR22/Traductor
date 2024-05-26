@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Traductor Q´eqchi´ a Español</title>
     <link rel="shortcut icon" href="https://i.blogs.es/3c6675/traductordegoogleoscuro/1366_2000.jpg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../style/bootstrap.css">    
+    <link rel="stylesheet" href="../../style/traductor/C_qeqchi.&espaniol.css">
 </head>
+
 <body>
     <nav class="navbar navbar-dark bg-dark">
         <a class="navbar-brand" href="#">
@@ -24,10 +26,10 @@
             <div class="card-body">
                 <h5 class="card-title">Traducir de Q´eqchi´ a Español</h5>
                 <form id="traduccionForm" action="/consulta_qeqchi" method="post">
-                    <input type="text" name="palabra_traducir_qeqchi" style="width: 200px;" required>
-                    <br><br>
+                    <input type="text" name="palabra_traducir_qeqchi" id="palabra_traducir_qeqchi" style="width: 200px;" required>
                     <button type="submit" class="btn btn-success">Traducir a Español</button>
-                </form>              
+                    <button type="button" class="btn btn-secondary" id="limpiarCajas">Limpiar</button>
+                </form>
             </div>
         </div>
         <div class="card border-success mb-3" style="max-width: 25rem;">
@@ -39,7 +41,7 @@
 
     <script>
         // Manejar la solicitud de traducción sin JavaScript (opcional)
-        document.getElementById("traduccionForm").addEventListener("submit", function(event) {
+        document.getElementById("traduccionForm").addEventListener("submit", function (event) {
             event.preventDefault(); // Prevenir el envío del formulario por defecto
     
             // Obtener los datos del formulario
@@ -48,11 +50,11 @@
             // Realizar la solicitud AJAX para enviar los datos al servidor Go
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "/consulta_qeqchi", true);
-            xhr.onload = function() {
+            xhr.onload = function () {
                 if (xhr.status === 200) {
                     // Convertir la respuesta JSON a un objeto JavaScript
                     var respuesta = JSON.parse(xhr.responseText);
-                    
+    
                     // Obtener la traducción del objeto respuesta
                     var traduccion = respuesta.espaniol;
     
@@ -61,14 +63,28 @@
                 } else {
                     // Mostrar un mensaje de error si la solicitud falla
                     document.getElementById("respuestaTraduccion").innerText = "Error al traducir la palabra";
+                    // Limpiar la caja de texto
+                    document.getElementById("palabra_traducir_qeqchi").value = '';
                 }
             };
-            xhr.onerror = function() {
+            xhr.onerror = function () {
                 // Mostrar un mensaje de error si la solicitud falla
                 document.getElementById("respuestaTraduccion").innerText = "Error al traducir la palabra";
+                // Limpiar la caja de texto
+                document.getElementById("palabra_traducir_qeqchi").value = '';
             };
             xhr.send(formData);
         });
+    
+        // Evento de clic para limpiar las cajas de texto
+        document.getElementById("limpiarCajas").addEventListener("click", function () {
+            // Limpiar la caja de texto
+            document.getElementById("palabra_traducir_qeqchi").value = '';
+            // Limpiar el área de respuesta
+            document.getElementById("respuestaTraduccion").innerText = '';
+        });
     </script>
+    
 </body>
+
 </html>

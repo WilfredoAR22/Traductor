@@ -32,9 +32,7 @@ func main() {
 		password := r.FormValue("password")
 
 		// Verifica las credenciales del usuario en la base de datos
-		err := verificarCredenciales(db, username, password)
-		if err != nil {
-			http.Error(w, "Credenciales incorrectas", http.StatusUnauthorized)
+		if !verificarCredenciales(w, db, username, password) {
 			return
 		}
 
@@ -164,6 +162,31 @@ func main() {
 		}
 	})
 
+	// Manejador para la consulta de audio en Q'eqchi'
+
+	http.HandleFunc("/consulta_audio_qeqchi", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPost {
+			http.Error(w, "Método no permitido", http.StatusMethodNotAllowed)
+			return
+		}
+
+		palabraQeqchi := r.FormValue("palabra_qeqchi")
+
+		audioQeqchi, err := obtenerAudioQeqchi(db, palabraQeqchi)
+		if err != nil {
+			http.Error(w, "Error al obtener el enlace de audio", http.StatusInternalServerError)
+			return
+		}
+
+		respuesta := fmt.Sprintf(`{"audioqeqchi": "%s"}`, audioQeqchi)
+
+		w.Header().Set("Content-Type", "application/json")
+		_, err = w.Write([]byte(respuesta))
+		if err != nil {
+			http.Error(w, "Error al escribir la respuesta JSON", http.StatusInternalServerError)
+		}
+	})
+
 	// Inicia el servidor en el puerto 8080
 	http.ListenAndServe(":8080", nil)
 }
@@ -186,7 +209,7 @@ func conectarDB() (*sql.DB, error) {
 	return db, nil
 }
 
-// funcion para registrar usuarios
+// función para registrar usuarios
 func guardarUsuario(db *sql.DB, nombre, correo, usuario, contrasenia string) error {
 	// Consulta SQL para insertar un nuevo usuario en la base de datos
 	query := "INSERT INTO tb_Usuario (Nombre, Correo_Electronico, Usuario, Contrasenia) VALUES (?, ?, ?, ?)"
@@ -200,22 +223,24 @@ func guardarUsuario(db *sql.DB, nombre, correo, usuario, contrasenia string) err
 	return nil
 }
 
-// funcion para validacion de usuarios
-func verificarCredenciales(db *sql.DB, username, password string) error {
+// función para validar credenciales
+func verificarCredenciales(w http.ResponseWriter, db *sql.DB, username, password string) bool {
 	// Consulta SQL para verificar las credenciales del usuario
 	query := "SELECT COUNT(*) FROM tb_Usuario WHERE Usuario = ? AND Contrasenia = ?"
 	var count int
 	err := db.QueryRow(query, username, password).Scan(&count)
 	if err != nil {
-		return err
+		http.Error(w, "Error al verificar las credenciales", http.StatusInternalServerError)
+		return false
 	}
 
-	// Si no se encuentra ningún usuario con las credenciales proporcionadas, devuelve un error
+	// Si no se encuentra ningún usuario con las credenciales proporcionadas, devuelve un mensaje de error
 	if count == 0 {
-		return fmt.Errorf("credenciales incorrectas")
+		http.Error(w, "Credenciales incorrectas", http.StatusUnauthorized)
+		return false
 	}
 
-	return nil
+	return true
 }
 
 // función para consultar el diccionario completo desde la base de datos
@@ -244,42 +269,46 @@ func consultarDiccionarioCompleto(db *sql.DB) ([]DiccionarioEntry, error) {
 	return resultados, nil
 }
 
-func generarHTMLDiccionarioCompleto(w http.ResponseWriter, resultados []DiccionarioEntry) {
-	// Parsear el archivo HTML de la plantilla
-	tmpl, err := template.ParseFiles("public/src/diccionario/diccionario_completo.html")
-	if err != nil {
-		http.Error(w, "Error al cargar la plantilla HTML", http.StatusInternalServerError)
-		return
-	}
-
-	// Ejecutar la plantilla HTML con los resultados de la consulta
-	err = tmpl.Execute(w, resultados)
-	if err != nil {
-		http.Error(w, "Error al renderizar la plantilla HTML", http.StatusInternalServerError)
-		return
-	}
-}
-
-// Estructura para almacenar las entradas del diccionario
+// estructura para almacenar los datos del diccionario
 type DiccionarioEntry struct {
-	ID       string
+	ID       int
 	Espaniol string
 	Qeqchi   string
 }
 
-func guardarPalabra(db *sql.DB, spanish, qeqchi string) error {
-	// Ejecutar la consulta SQL para insertar la palabra en la base de datos
-	_, err := db.Exec("INSERT INTO tb_traductor (espaniol, qeqchi) VALUES (?, ?)", spanish, qeqchi)
+// función para generar el HTML del diccionario completo
+func generarHTMLDiccionarioCompleto(w http.ResponseWriter, resultados []DiccionarioEntry) {
+	// Crear una nueva plantilla y analizar el HTML
+	tmpl := template.New("diccionario_completo.html")
+	tmpl, err := tmpl.ParseFiles("public/src/diccionario/diccionario_completo.html")
 	if err != nil {
-		fmt.Println("Error al ejecutar la consulta SQL:", err)
+		http.Error(w, "Error al analizar la plantilla", http.StatusInternalServerError)
+		return
+	}
+
+	// Ejecutar la plantilla con los datos del diccionario
+	err = tmpl.Execute(w, resultados)
+	if err != nil {
+		http.Error(w, "Error al ejecutar la plantilla", http.StatusInternalServerError)
+		return
+	}
+}
+
+// función para guardar una nueva palabra en la base de datos
+func guardarPalabra(db *sql.DB, spanish, qeqchi string) error {
+	// Consulta SQL para insertar una nueva palabra en la base de datos
+	query := "INSERT INTO tb_traductor (espaniol, qeqchi) VALUES (?, ?)"
+	_, err := db.Exec(query, spanish, qeqchi)
+	if err != nil {
 		return err
 	}
 
-	fmt.Println("Palabra guardada correctamente")
+	fmt.Println("Palabra guardada exitosamente")
 
 	return nil
 }
 
+// función para traducir una palabra de Q'eqchi' a español
 func traducirQeqchi(db *sql.DB, palabraQeqchi string) (string, error) {
 	// Realizar la consulta en la base de datos para obtener la traducción
 	var palabraEspanol string
@@ -301,4 +330,19 @@ func traducirSpanish(db *sql.DB, palabraEspanol string) (string, error) {
 	}
 
 	return palabraQeqchi, nil
+}
+
+// función para obtener el enlace de audio de una palabra en Q'eqchi'
+func obtenerAudioQeqchi(db *sql.DB, palabraQeqchi string) (string, error) {
+	query := "SELECT audioqeqchi FROM tb_traductor WHERE qeqchi = ?"
+	var audioQeqchi string
+	err := db.QueryRow(query, palabraQeqchi).Scan(&audioQeqchi)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return "", fmt.Errorf("no se encontró audio para la palabra: %s", palabraQeqchi)
+		}
+		return "", fmt.Errorf("error en la consulta: %v", err)
+	}
+
+	return audioQeqchi, nil
 }

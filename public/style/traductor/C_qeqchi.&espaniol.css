@@ -1,0 +1,126 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    overflow-x: hidden;
+}
+
+.navbar {
+    background-color: #343a40;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand img {
+    margin-right: 10px;
+}
+
+.bg-primary {
+    background-color: #007bff !important;
+}
+
+.card {
+    transition: transform 0.5s, box-shadow 0.5s;
+    margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-body {
+    text-align: center;
+}
+
+.btn {
+    width: 200px;
+    height: 40px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: 10px auto;
+    cursor: pointer;
+    transition: background-color 0.5s, transform 0.5s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: #fff; /* Ensure the text is white */
+}
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+input[type="text"] {
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    margin-bottom: 15px;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+#respuestaTraduccion {
+    min-height: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #28a745;
+}
+
+.boton-escuchar {
+    width: 70px; /* Ancho del botón */
+    height: 40px; /* Altura del botón */
+    border: none;
+    background-color: #007bff; /* Color de fondo del botón */
+    color: white; /* Color del icono */
+    border-radius: 20px; /* Borde redondeado */
+    cursor: pointer;
+  }
+  
+.boton-escuchar:hover {
+    background-color: #0056b3; /* Color de fondo del botón al pasar el ratón */
+}
+
+.boton-group {
+    display: flex;
+    align-items: center;
+    margin-left: 25px; /* Reducimos el margen izquierdo del contenedor */
+    margin-right: 50px; /* Añadimos un margen derecho al contenedor */
+}
+
+.boton-group .btn {
+    margin-left: 10px; /* Espacio entre botones */
+}
