@@ -40,6 +40,7 @@
                 <div id="respuestaTraduccion">
                     <!-- Aquí se mostrará la respuesta de la traducción -->
                 </div>
+                <div id="audioStatus" style="color: red; display: none;">El audio aún no está disponible.</div> <!-- Agregar un elemento para mostrar el estado del audio -->
             </div>
         </div>
     </center>
@@ -50,6 +51,7 @@
         document.getElementById("limpiarCajas").addEventListener("click", function() {
             document.getElementById("palabra_traducir_espa").value = '';
             document.getElementById("respuestaTraduccion").innerText = '';
+            document.getElementById("audioStatus").innerText = '';
         });
 
         // Manejar la solicitud de traducción sin JavaScript (opcional)
@@ -108,7 +110,12 @@
                 })
                 .then(data => {
                     var audioLink = data.audioqeqchi;
-                    reproducirAudio(audioLink);
+                    if (audioLink.trim() === "") {
+                        document.getElementById("audioStatus").style.display = "block";
+                    } else {
+                        document.getElementById("audioStatus").style.display = "none";
+                        reproducirAudio(audioLink);
+                    }
                 })
                 .catch(error => {
                     console.error("Error al obtener el audio:", error);
