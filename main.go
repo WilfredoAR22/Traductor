@@ -32,7 +32,9 @@ func main() {
 		password := r.FormValue("password")
 
 		// Verifica las credenciales del usuario en la base de datos
-		if !verificarCredenciales(w, db, username, password) {
+		err := verificarCredenciales(db, username, password)
+		if err != nil {
+			http.Error(w, "Credenciales incorrectas", http.StatusUnauthorized)
 			return
 		}
 
@@ -223,24 +225,22 @@ func guardarUsuario(db *sql.DB, nombre, correo, usuario, contrasenia string) err
 	return nil
 }
 
-// función para validar credenciales
-func verificarCredenciales(w http.ResponseWriter, db *sql.DB, username, password string) bool {
+// función para validación de usuarios
+func verificarCredenciales(db *sql.DB, username, password string) error {
 	// Consulta SQL para verificar las credenciales del usuario
 	query := "SELECT COUNT(*) FROM tb_Usuario WHERE Usuario = ? AND Contrasenia = ?"
 	var count int
 	err := db.QueryRow(query, username, password).Scan(&count)
 	if err != nil {
-		http.Error(w, "Error al verificar las credenciales", http.StatusInternalServerError)
-		return false
+		return err
 	}
 
-	// Si no se encuentra ningún usuario con las credenciales proporcionadas, devuelve un mensaje de error
+	// Si no se encuentra ningún usuario con las credenciales proporcionadas, devuelve un error
 	if count == 0 {
-		http.Error(w, "Credenciales incorrectas", http.StatusUnauthorized)
-		return false
+		return fmt.Errorf("credenciales incorrectas")
 	}
 
-	return true
+	return nil
 }
 
 // función para consultar el diccionario completo desde la base de datos
